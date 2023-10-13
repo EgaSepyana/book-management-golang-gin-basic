@@ -26,7 +26,7 @@ func NewMongoCollection(collaction string) *mongoDb {
 	return &mongoDb{
 		collectionName: collaction,
 		ctx:            context.Background(),
-		dbName:         "tws",
+		dbName:         os.Getenv("MONGODB_DB_NAME"),
 		MongoURL:       os.Getenv("MONGODB_URL"),
 	}
 }
