@@ -1,0 +1,560 @@
+definitions:
+  models.Books:
+    properties:
+      Create_at:
+        type: integer
+      Update_at:
+        type: integer
+      author:
+        type: string
+      content:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      price:
+        type: integer
+      rating_id:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
+    required:
+    - content
+    - description
+    - price
+    - title
+    type: object
+  models.ChangePassword:
+    properties:
+      newPassword:
+        example: newpass
+        format: base64
+        type: string
+      oldPassword:
+        example: oldpass
+        format: base64
+        type: string
+    type: object
+  models.Login:
+    properties:
+      email:
+        example: Example@gmail.com
+        format: base64
+        type: string
+      password:
+        example: FooBar
+        format: base64
+        type: string
+    type: object
+  models.PostBook:
+    properties:
+      content:
+        example: Content.....
+        format: base64
+        type: string
+      description:
+        example: Some Description
+        format: base64
+        type: string
+      price:
+        example: 100
+        type: integer
+      title:
+        example: Foo
+        format: base64
+        type: string
+    type: object
+  models.PostRating:
+    properties:
+      comment:
+        example: Comment.....
+        format: base64
+        type: string
+      rate:
+        example: 1
+        type: integer
+    type: object
+  models.Profile:
+    properties:
+      Address:
+        example: Cimahi
+        format: base64
+        type: string
+      first_name:
+        example: Foo
+        format: base64
+        type: string
+      gender:
+        example: LAKI-LAKI
+        format: base64
+        type: string
+      last_name:
+        example: Bar
+        format: base64
+        type: string
+    type: object
+  models.Rating:
+    properties:
+      author:
+        type: string
+      comment:
+        type: string
+      created_at:
+        type: integer
+      id:
+        type: string
+      rate:
+        type: integer
+      updated_at:
+        type: integer
+    required:
+    - rate
+    type: object
+  models.SignIn:
+    properties:
+      Address:
+        example: Cimahi
+        format: base64
+        type: string
+      email:
+        example: Example@gmail.com
+        format: base64
+        type: string
+      first_name:
+        example: Foo
+        format: base64
+        type: string
+      gender:
+        example: LAKI-LAKI
+        format: base64
+        type: string
+      last_name:
+        example: Bar
+        format: base64
+        type: string
+      password:
+        example: FooBar
+        format: base64
+        type: string
+    type: object
+  models.UpdateRating:
+    properties:
+      comment:
+        example: Comment.....
+        format: base64
+        type: string
+    type: object
+  models.UpdatedBook:
+    properties:
+      content:
+        example: ""
+        format: base64
+        type: string
+      description:
+        example: ""
+        format: base64
+        type: string
+      price:
+        example: 0
+        type: integer
+      title:
+        example: ""
+        format: base64
+        type: string
+    type: object
+  models.User:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: integer
+      disable:
+        type: boolean
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        enum:
+        - LAKI-LAKI
+        - PEREMPUAN
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      role:
+        type: string
+      updated_at:
+        type: integer
+    required:
+    - address
+    - email
+    - first_name
+    - gender
+    - last_name
+    - password
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: |-
+    A book management service API in Go using Gin framework.
+    Description for what is this security definition being used
+  title: Test Air
+paths:
+  /books:
+    get:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: get book
+      tags:
+      - books
+    post:
+      description: "Takes a boo\tk JSON and store in DB. Return saved JSON."
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.PostBook'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: post book
+      tags:
+      - booksss
+  /books/{id}:
+    delete:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Data Deleted
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Book
+      tags:
+      - books
+    get:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Books'
+      summary: get book
+      tags:
+      - books
+    put:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdatedBook'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Books'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Book
+      tags:
+      - books
+  /login:
+    post:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Login
+      tags:
+      - Auth
+  /rating/{BookId}:
+    get:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      parameters:
+      - description: Book ID
+        in: path
+        name: BookId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+      summary: Get Book Rating
+      tags:
+      - Rating
+    post:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      parameters:
+      - description: Book ID
+        in: path
+        name: BookId
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.PostRating'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Rating'
+      security:
+      - ApiKeyAuth: []
+      summary: Set Rating
+      tags:
+      - Rating
+  /rating/{id}:
+    put:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      parameters:
+      - description: Rating  ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateRating'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Rating'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Rating
+      tags:
+      - Rating
+  /signin:
+    post:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignIn'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+      summary: SignIn
+      tags:
+      - Auth
+  /user/changepassword:
+    put:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChangePassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Change Password
+      tags:
+      - User
+  /user/disableUser/{email}:
+    put:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      parameters:
+      - description: Email
+        in: path
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Disable User
+      tags:
+      - User
+  /user/editProfile:
+    put:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.Profile'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Change Password
+      tags:
+      - User
+  /user/enableUser/{email}:
+    put:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      parameters:
+      - description: Email
+        in: path
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Enable user
+      tags:
+      - User
+  /user/profile:
+    get:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      security:
+      - ApiKeyAuth: []
+      summary: Profile
+      tags:
+      - User
+  /user/setadmin/{email}:
+    put:
+      description: Takes a book JSON and store in DB. Return saved JSON.
+      parameters:
+      - description: Email
+        in: path
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Set Admin
+      tags:
+      - User
+securityDefinitions:
+  ApiKeyAuth:
+    description: Description for what is this security definition being used
+    in: header
+    name: token
+    type: apiKey
+swagger: "2.0"
